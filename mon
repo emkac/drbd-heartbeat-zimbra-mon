@@ -1,0 +1,113 @@
+## node 1 
+
+```sh
+apt-get install mon
+```
+
+## node 2
+
+```sh
+apt-get install mon
+```
+
+## configuration mon.cf node 1 et 2
+
+vi /etc/mon/mon.cf
+
+```sh
+alertdir		= /usr/lib/mon/alert.d
+mondir			= /usr/lib/mon/mon.d
+logdir			= /var/log/mon
+historicfile	= /var/log/mon/history.log
+maxprocs		= 20
+histlength		= 100
+randstart		= 60s
+dtlogging		= yes
+dtlogfile		= dtlog
+
+
+hostgroup zimbra  localhost
+
+watch zimbra
+	service ping
+		description Responses to ping
+		interval 5m
+		monitor fping.monitor
+		period wd {Mon-Fri} hr {7am-10pm}
+			alert mail.alert root@localhost
+			alertevery 1h
+		period wd {Sat-Sun}
+			alert mail.alert root@localhost
+	service bind9
+		description suveillance bind9
+		interval 10m
+		monitor bind9.monitor
+		period
+			numalerts 10
+			alert heartbeat.alert root@localhost
+
+```
+
+## configuration mon.cf node 1 et 2
+
+vi /etc/mon/mon.cf
+
+```sh
+alertdir		= /usr/lib/mon/alert.d
+mondir			= /usr/lib/mon/mon.d
+logdir			= /var/log/mon
+historicfile	= /var/log/mon/history.log
+maxprocs		= 20
+histlength		= 100
+randstart		= 60s
+dtlogging		= yes
+dtlogfile		= dtlog
+
+
+hostgroup zimbra  localhost
+
+watch zimbra
+	service ping
+		description Responses to ping
+		interval 5m
+		monitor fping.monitor
+		period wd {Mon-Fri} hr {7am-10pm}
+			alert mail.alert root@localhost
+			alertevery 1h
+		period wd {Sat-Sun}
+			alert mail.alert root@localhost
+	service zimbra
+		description suveillance bind9
+		interval 10m
+		monitor zimbra.monitor
+		period
+			numalerts 10
+			alert heartbeat.alert root@localhost
+
+```
+
+## Script de surveillance  node 1 et node 2
+
+vi /usr/lib/mon/mon.d/zimbra.monitor
+```sh
+#!/bin/bash
+sudo /etc/init.d/zimbra status
+```
+chmod a+x /usr/lib/mon/mon.d/zimbra.monitor
+
+## Script alert heartbeat node 1 et node 2
+
+vi /usr/lib/mon/alert.d/heartbeat.alert
+
+```sh
+#!bin/bash
+sudo /usr/share/heartbeat/hb_standby
+```
+chmod a+x /usr/lib/mon/alert.d/heartbeat.alert
+
+## deactivation demarage automatique mon 
+
+```sh
+update-rc -f mon remove
+ln -s /etc/init.d/mon /etc/heartbeat/resource.d/
+
