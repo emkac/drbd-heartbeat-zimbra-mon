@@ -1,0 +1,56 @@
+Mise en place zimbra
+
+etape 0: installation de bind9 dnsutils sur les deux nodes
+# Installation Bind9 dnsutils
+
+les deux serveurs
+
+apt-get install bind9 dnsutils
+
+# Configuration du MX
+
+sur les deux nodes.
+
+vi /etc/bind/name.conf.local
+
+```sh
+zone caissepargne.ci{
+                type master;
+                file "/etc/bind/db.caissepargne";
+};
+```
+
+## node 1
+vi /etc/bind/db.caissepargne
+
+```sh
+$TTL    604800
+@       IN      SOA     caissepargne.ci. admin.caissepargne.ci. (
+                              2         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS              ns1
+ns1     IN      A               10.100.14.221
+@       IN      MX      5       mail 
+mail    IN      A               10.100.14.223
+```
+
+## node 2
+vi /etc/bind/db.caissepargne
+
+```sh
+$TTL    604800
+@       IN      SOA     caissepargne.ci. admin.caissepargne.ci. (
+                              2         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS              ns1
+ns2	   IN      A               10.100.14.222
+@       IN      MX      5       mail 
+mail    IN      A               10.100.14.223
