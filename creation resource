@@ -1,0 +1,8 @@
+# Creation de la resource
+
+```sh
+drbdadm create-md zimbra   # a lancer sur les deux nodes
+drbdadm up zimbra                  # a lancer sur les deux nodes
+drbdadm -- --overwrite-data-of-peer primary zimbra  # node primaire
+mkfs.ext4 /dev/drbd0             # node primaire
+mount /dev/drbd0 /opt             # node primaire
