@@ -1,0 +1,47 @@
+DRBD+HEARTBEAT+ZIMBRA+MON
+=========================
+Created jeudi 16 octobre 2014
+# installation de drbd sur ubuntu 14.04
+
+apt-get install drbd8-utils 
+# Configuration de la resource
+
+vi /etc/drbd.d/zimbra.res
+
+resource zimbra {
+        protocol C;
+
+        handlers {
+                pri-on-incon-degr "echo o > /proc/sysrq-trigger ; reboot";
+                pri-lost-after-sb "echo o > /proc/sysrq-trigger ; reboot";
+                local-io-error "echo o > /proc/sysrq-trigger ; halt -f";
+        }
+        startup {
+                wfc-timeout 120;
+        }
+        disk {
+                on-io-error detach;
+        }
+        net {
+                after-sb-0pri discard-least-changes;
+                after-sb-1pri call-pri-lost-after-sb;
+                after-sb-2pri call-pri-lost-after-sb;
+                rr-conflict disconnect;
+        }
+        syncer {
+                rate 100M;
+                al-extents 257;
+        }
+        on drbd02 {
+                device /dev/drbd0;
+                disk /dev/cnce/drbdzimbra;
+                address 10.100.14.222:7788;
+                meta-disk internal;
+        }
+        on drbd03 {
+                device /dev/drbd0;
+                disk /dev/cnce/drbdzimbra;
+                address 10.100.14.223:7788;
+                meta-disk internal;
+        }
+}
