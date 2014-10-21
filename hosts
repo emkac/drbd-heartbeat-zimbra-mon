@@ -1,0 +1,17 @@
+vi /etc/hosts
+
+```sh
+10.100.14.221 mail.caissepargne.ci mail
+10.100.14.221 mail01.caissepargne.ci mail01
+10.100.14.222 mail02.caissepargne.ci mail02
+```
+
+## node 2
+
+vi /etc/hosts
+
+```sh
+10.100.14.221 mail.caissepargne.ci mail
+10.100.14.221 mail01.caissepargne.ci mail01
+10.100.14.222 mail02.caissepargne.ci mail02
+```
