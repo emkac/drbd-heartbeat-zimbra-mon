@@ -1,0 +1,9 @@
+s'assuser que les deux nodes sont dans l'etat primaire /secondaire.
+s'assuser que le /dev/drbd0 est monté   
+mount /dev/drbd0 /opt
+lvextend -L+NG /dev/cnce/drbdzimbra  # a executer sur les deux nodes 
+drbdadm resize zimbra # a executer sur le node primaire
+resize2fs /dev/drbd0 # a executer sur le node primaire 
+
+######################"
+astuce  : ouvrir deux autres terminaux , depuis ls terminaux ouvert faire un watch cat /proc/drbd pour voir continuelement l'etat du cluster
