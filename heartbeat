@@ -1,0 +1,58 @@
+apt-get install heartbeat
+##################""
+edition de ha.cf
+vi /etc/heartbeat/ha.cf
+###############
+ebugfile /var/log/ha-debug
+logfile /var/log/ha-log
+logfacility     local0
+keepalive 2
+deadtime 30
+warntime 10
+udpport 694
+baud    19200
+bcast   eth0            # Linux
+auto_failback off
+node    drbd02
+node    drbd03
+conn_logd_time 60
+compression     bz2
+compression_threshold 2048
+
+
+####################################""
+vi /etc/heartbeat/authkey
+
+remplir le fichier avec la cle generer
+echo -n password | sha1sum | awk '{print $1}'
+ce qui donne par exemple
+
+auth 1
+1 sha1 38a1fef2598f676c9e518e291f39402458f07ac2
+
+
+######################################
+vi /etc/heartbeat/haresources
+ce fichier prend les informations dans resource.d
+
+drbd02 IPaddr::10.100.14.224/24/eth0 drbddisk::zimbra Filesystem::/dev/drbd0::/opt::ext4
+
+
+## lancer un bascul automatique depuis le secondaire
+lancer un balencement automatique depuis le node secondaire
+/usr/share/heartbeat/hb_takeover 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
