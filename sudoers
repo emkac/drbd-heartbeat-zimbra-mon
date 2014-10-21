@@ -1,0 +1,7 @@
+export EDITOR=vim
+visudo
+mon     ALL=(ALL:ALL) ALL
+mon ALL=NOPASSWD:/etc/init.d/zimbra status
+mon ALL=NOPASSWD:/usr/share/heartbeat/hb_standby
+
+ces commandes sont a saisir sur les deux nodes
