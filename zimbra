@@ -1,0 +1,67 @@
+wget http://files2.zimbra.com/downloads/8.0.8_GA/zcs-NETWORK-8.0.8_GA_6184.UBUNTU14_64.20140925164233.tgz
+depuis le node 1
+
+apt-get install  libgmp10 libaio1 unzip pax sqlite3
+```sh
+hostname mail
+tar xvzf zcs-NETWORK-8.0.8_GA_6184.UBUNTU14_64.20140925164233.tgz
+mv zcs-NETWORK-8.0.8_GA_6184.UBUNTU14_64.20140925164233 zimbra
+cd zimbra
+./install 
+```
+
+le mot de passe de l'admin est admin@caissepargne
+apres avoir fini l'intallation, il faut remetre le hostname par defaut 
+hostname mail01
+
+## depuis le node 2
+
+apt-get install  libgmp10 libaio1 unzip pax sqlite3
+
+```sh
+hostname mail
+tar xvzf zcs-NETWORK-8.0.8_GA_6184.UBUNTU14_64.20140925164233.tgz
+mv zcs-NETWORK-8.0.8_GA_6184.UBUNTU14_64.20140925164233 zimbra
+cd zimbra
+./install 
+```
+le mot de passe de l'admin est admin@caissepargne
+
+## node 2
+
+apres avoir installer zimbra , il faut suoprimer le dossier /opt/zimbra
+remetre le hostname original
+hostname mail02
+
+## node 1
+
+faire un lien symbolique de /etc/init.d/zimbra vers resources.d
+
+```sh
+cd /etc/heartbeat/resource.d
+ln -s /etc/init.d/zimbra .
+update-rc.d -f zimbra remove
+```
+
+## node 2
+
+faire un lien symbolique de /etc/init.d/zimbra vers resources.d
+```sh
+rm -r /opt/zimbra
+cd /etc/heartbeat/resource.d
+ln -s /etc/init.d/zimbra .
+update-rc.d -f zimbra remove
+```
+
+##node 1 
+
+```sh
+mail01 IPaddr::10.100.14.223/24/eth0 drbddisk::zimbra Filesystem::/dev/drbd0::/opt::ext4 zimbra
+```
+## node 2
+
+```sh
+mail01 IPaddr::10.100.14.223/24/eth0 drbddisk::zimbra Filesystem::/dev/drbd0::/opt::ext4 zimbra
+```
+
+
