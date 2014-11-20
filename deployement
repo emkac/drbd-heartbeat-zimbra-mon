@@ -1,5 +1,6 @@
 DRBD+HEARTBEAT+ZIMBRA+MON
 =========================
+suposont que les hotes sont drbd02  et drbd03
 Created jeudi 16 octobre 2014
 # installation de drbd sur ubuntu 14.04
 
