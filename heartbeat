@@ -35,7 +35,7 @@ auth 1
 vi /etc/heartbeat/haresources
 ce fichier prend les informations dans resource.d
 
-drbd02 IPaddr::10.100.14.224/24/eth0 drbddisk::zimbra Filesystem::/dev/drbd0::/opt::ext4
+drbd02 IPaddr::10.100.14.224/24/eth0 mon drbddisk::zimbra Filesystem::/dev/drbd0::/opt::ext4
 
 
 ## lancer un bascul automatique depuis le secondaire
