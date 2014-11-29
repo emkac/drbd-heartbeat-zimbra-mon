@@ -21,7 +21,7 @@ compression_threshold 2048
 
 
 ####################################""
-vi /etc/heartbeat/authkey
+vi /etc/heartbeat/authkeys
 
 remplir le fichier avec la cle generer
 echo -n password | sha1sum | awk '{print $1}'
