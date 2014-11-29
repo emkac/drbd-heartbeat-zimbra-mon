@@ -3,7 +3,7 @@ apt-get install heartbeat
 edition de ha.cf
 vi /etc/heartbeat/ha.cf
 ###############
-ebugfile /var/log/ha-debug
+debugfile /var/log/ha-debug
 logfile /var/log/ha-log
 logfacility     local0
 keepalive 2
@@ -44,7 +44,7 @@ lancer un balencement automatique depuis le node secondaire
 
 
 
-
+il faut faire un chmod 600 sur ce le fichier authkeys.
 
 
 
