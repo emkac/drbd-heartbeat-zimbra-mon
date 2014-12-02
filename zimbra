@@ -1,7 +1,7 @@
 wget http://files2.zimbra.com/downloads/8.0.8_GA/zcs-NETWORK-8.0.8_GA_6184.UBUNTU14_64.20140925164233.tgz
 depuis le node 1
 
-apt-get install  libgmp10 libaio1 unzip pax sqlite3
+apt-get install  libgmp10 libaio1 unzip pax sqlite3 sysstat
 ```sh
 hostname mail
 tar xvzf zcs-NETWORK-8.0.8_GA_6184.UBUNTU14_64.20140925164233.tgz
