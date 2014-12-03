@@ -1,0 +1,12 @@
+# Generez un certificat
+openssl genrsa -des3 -out caissepargne.ci.key 2048
+openssl req -new -key caissepargne.ci.key -out caissepargne.ci.csr 
+
+# Deployer le certificat
+
+cp commercial.key /opt/zimbra/ssl/zimbra/commercial/
+/opt/zimbra/bin/zmcertmgr verifycrt comm commercial.key commercial.crt commercial_ca.crt
+/opt/zimbra/bin/zmcertmgr deploycrt comm commercial.crt commercial_ca.crt
+/opt/zimbra/java/bin/keytool -import -alias root -keystore \ 
+/opt/zimbra/java/jre/lib/security/cacerts -storepass changeit -file /opt/zimbra/conf/ca/commercial_ca.pem
+/etc/init.d/zimbra restart
