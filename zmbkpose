@@ -1,0 +1,83 @@
+==  Administration ==
+
+Commandes d'admnistration
+
+=== Augmentez la taille des pieces jointes ===
+
+<pre>
+zmprov mcf zimbraMtaMaxMessageSize 50000000
+zmprov mcf zimbraFileUploadMaxSize 50000000
+zmprov mcf zimbraMailContentMaxSize 104857600
+zmprov modifyConfig zimbraMtaMaxMessageSize 5048000
+zmmtactl restart
+</pre>
+
+=== Regenerer les certificats ===
+
+ /opt/zimbra/bin/zmcertmgr createca -new  # creation du ca
+ /opt/zimbra/bin/zmcertmgr createcrt -new -days 36500  # creation du certificats
+ /opt/zimbra/bin/zmcertmgr deploycrt self # deployer le certificat
+  /opt/zimbra/bin/zmcertmgr deployca  # deploy ca
+ /opt/zimbra/bin/zmcertmgr viewdeployedcrt [all|ldap|mailboxd|proxy|mta] # check des certificats deployé sur
+
+
+== Sauvegarde/Restauration ==
+
+Les sauvegardes zimbra communautaire et network peuvent facilement se faire avec zmbkpose
+
+
+
+=== Zmbkpose ===
+
+==== Installation ==== 
+
+<pre>
+apt-get install gawk ldap-utils curl unzip wget -y
+wget https://github.com/bggo/Zmbkpose/archive/rewrite_proposal_v2.0.zip
+unzip rewrite_proposal_v2.0.zip
+cd Zmbkpose-rewrite_proposal_v2.0
+sh install.sh
+</pre>
+
+==== Configuration ==== 
+
+Ce script s'installe dans le répertoire /usr/local/bin/zmbkpose . Son fichier de configuration se trouve dans /etc/zmbkpose /zmbkpose.conf
+<pre>
+# /etc/zmbkpose/zmbkpose.conf
+WORKDIR="/opt/zimbra/backup" 
+ADMINUSER=admin@ictmess-orange.ci 
+ADMINPASS=smileci# 
+LDAPMASTERSERVER=ldap://ictmessldap.ictmess-orange.ci:389 
+LDAPZIMBRADN="uid=zimbra,cn=admins,cn=zimbra" 
+LDAPZIMBRAPASS="smileci#" 
+PARALLEL_SUPPORT=0 
+MAX_PARALLEL_PROCESS=3 
+</pre>
+
+==== Utilisation ====
+
+Les sauvegardes 
+
+<pre>
+# Full backup des comptes du serveur
+zmbkpose -f
+# backup Incrémentales des comptes du serveur
+zmbkpose -i# l'option -t permet de faire un full backup au lieu d'une incrementale au cas ou le compte n'en a pas encore zmbkpose -i -t
+</pre>
+
+Sauvegarde des comptes 
+<pre>
+# full backup d'un compte
+zmbkpose -f -a email
+# backup incremental d'un compte
+zmbkpose -f -i email
+</pre>
+
+Pour les restauration
+<pre>
+# restauration de tous les comptes
+zmbkpose -r 
+# restuaration d'un compte precis
+zmbkpose -r -a email
+</pre>
+[[Catégorie:Wiki]]
