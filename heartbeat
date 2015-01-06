@@ -5,13 +5,16 @@ vi /etc/heartbeat/ha.cf
 ###############
 debugfile /var/log/ha-debug
 logfile /var/log/ha-log
-logfacility     local0
+logfacility     local3 
 keepalive 2
 deadtime 30
 warntime 10
+initdead 120
 udpport 694
 baud    19200
-bcast   eth0            # Linux
+bcast   eth0            # Linux ou bien on peut preciser comme suite
+ucast   eth0 ip serveur 1 # heartbeat sert detecter l'ip du serveur surlequel il est lancé et faire les ping vers le serveur distant.
+ucast   eth0 ip serveur 2  #
 auto_failback off
 node    drbd02
 node    drbd03
