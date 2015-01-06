@@ -38,10 +38,10 @@ watch zimbra
 			alertevery 1h
 		period wd {Sat-Sun}
 			alert mail.alert root@localhost
-	service bind9
-		description suveillance bind9
-		interval 10m
-		monitor bind9.monitor
+	service zimbra
+		description suveillance zimbra
+		interval 1m
+		monitor zimbra.monitor
 		period
 			numalerts 10
 			alert heartbeat.alert root@localhost
@@ -77,8 +77,8 @@ watch zimbra
 		period wd {Sat-Sun}
 			alert mail.alert root@localhost
 	service zimbra
-		description suveillance bind9
-		interval 10m
+		description suveillance zimbra
+		interval 1m
 		monitor zimbra.monitor
 		period
 			numalerts 10
