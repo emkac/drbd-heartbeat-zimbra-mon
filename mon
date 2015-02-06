@@ -111,3 +111,8 @@ chmod a+x /usr/lib/mon/alert.d/heartbeat.alert
 update-rc -f mon remove
 ln -s /etc/init.d/mon /etc/heartbeat/resource.d/
 
+
+usermod -s /bin/bash mon
+su - mon
+/usr/share/hearesource/hb_standby
+cette commande me dira si oui ou non mon a les droits pour lancer heartbeat si non ajouter les droits.
