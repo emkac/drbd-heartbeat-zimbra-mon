@@ -6,6 +6,7 @@ Created jeudi 16 octobre 2014
 
 apt-get install drbd8-utils 
 # Configuration de la resource
+modprobe drbd
 
 vi /etc/drbd.d/zimbra.res
 
