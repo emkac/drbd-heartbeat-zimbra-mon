@@ -1,0 +1,30 @@
+Writing meta data...
+md_offset 2146430976
+al_offset 2146398208
+bm_offset 2146332672
+
+Found ext3 filesystem
+     2096128 kB data area apparently used
+     2096028 kB left usable by current configuration
+
+
+Device size would be truncated, which
+would corrupt data and result in
+'access beyond end of device' errors.
+You need to either
+   * use external meta data (recommended)
+   * shrink that filesystem first
+   * zero out the device (destroy the filesystem)
+Operation refused.
+Command 'drbdmeta 0 v08 /dev/sdb1 internal create-md' terminated with exit code 40
+
+correction
+1 soit ajouter un disque externe pour les meta donné (cas lvm et grand espace de stockage)
+2 soit ajuster la taille 
+3 ecrasé le disque avec les 0 ( ceci se fait dans le cas d'un disque physique)
+
+cas specifique
+e2fsck -f /dev/sdb1 && resize2fs /dev/sdb1 2096028K
+dd if=/dev/zero of=/dev/sdb5
+
+drbdadm create-md meta
