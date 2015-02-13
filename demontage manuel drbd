@@ -1,0 +1,9 @@
+serveur primaire
+
+umount /srv ou /opt en fonction du point de montage
+drbdadm secondary le nom de la resource
+drbd-overview
+
+sur le serveur secondaire
+drbdadm primary 
+mount /dev/drbd0 /srv
