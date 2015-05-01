@@ -1,5 +1,5 @@
 #!/bin/bash
-PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/opt/zimbra/bin
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/opt/zimbra/openldap/bin:/bin
 BACKUP_DIR="/opt/zimbra/backup"
 LOG_DIR="$BACKUPDIR/logs"
 ADMINS="emmanuel.kacou@smile.ci"
