@@ -1,0 +1,24 @@
+#!/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/opt/zimbra/bin
+BACKUP_DIR="/opt/zimbra/backup"
+LOG_DIR="$BACKUPDIR/logs"
+ADMINS="emmanuel.kacou@smile.ci"
+mkdir -p $LOG_DIR
+
+#script full backup avec zmbkpose
+date=`date"+%Y%m%d"`
+zmbkpose -f >> $LOG_DIR/backup.$date.log 2>&1 
+echo "envoie du compte rendu de backup"
+(echo "subject:backup effectué le $(date)";echo -e\r\ntotal:$(zmbkpose -n | wc -l)comptes;zmbkpose -n)|/usr/sbin/sendmail -t $ADMIN
+
+# script incremantal backup avec zmbkpose
+zmbkpose -i -t >> $LOG_DIR/backup.$date.log 2>&1 
+echo "envoie du compte rendu de backup"
+(echo "subject:backup effectué le $(date)";echo -e\r\ntotal:$(zmbkpose -n | wc -l)comptes;zmbkpose -n)|/usr/sbin/sendmail -t $ADMIN
+
+
+
+#### crontable
+@daily/usr/bin/zmbpose_inc.sh
+@weakly /usr/bin/zmbkpose_full.sh
+0 0 1 */2 * /usr/local/bin/zmbkpose -d 2m
